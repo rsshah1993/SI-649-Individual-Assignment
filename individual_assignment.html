@@ -1,0 +1,345 @@
+<head>
+    <title>Individual Assignment 1</title>
+    <meta charset="utf-8">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.8/vega.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.4/vega-lite.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc7/vega-embed.js"></script>
+
+    <!--uncomment if you decide to use advanced tooltips-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-tooltip/0.4.4/vega-tooltip.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/vega-tooltip/0.4.4/vega-tooltip.css">
+    <!--d3 and jquery might be helpful if you want to load data only once-->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <style media="screen">
+        /* Add space between Vega-Embed links  */
+        .vega-actions a {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Container for the visualization -->
+<div id="chart3"></div>
+<div id="chart2"></div>
+<div id="chart1"></div>
+<script>
+var opt = {"renderer": "svg", mode: "vega-lite"};
+var width = 200;
+spec1 = {
+  "width":400,
+  "title":"WWII Mean MIC for Gram Staining",
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "config": {
+    "background": "#ffffff"
+  },
+  "vconcat":[
+    {
+  "layer":[{
+  "mark": "bar",
+  "width":400,
+    "data": {
+    "url": "csvjson.json",
+    "format": {
+      "type": "json"
+    }
+  },
+
+  "encoding": {
+    "x": {
+      "aggregate":"average",
+      "field": "Streptomycin",
+      "type": "quantitative"
+    },
+    "y": {
+      "field": "Gram Staining",
+      "type": "nominal",
+    },
+    "color": {
+      "field": "Gram Staining",
+      "type": "nominal",
+      "scale":{"range":["#00274C","#FFCB05"]}
+    },
+},
+},
+{
+   "mark": {
+     "type": "text",
+     "align": "left",
+     "baseline": "middle",
+     "dx": 2
+   },
+   "data": {
+     "url": "csvjson.json",
+     "format": {
+       "type": "json"
+     }
+   },
+   "encoding": {
+     "x": {
+       "aggregate":"average",
+       "field": "Streptomycin",
+       "type": "quantitative"
+     },
+     "y": {
+       "field": "Gram Staining",
+       "type": "nominal"
+     },
+     "text": {
+       "aggregate": "average",
+       "field": "Streptomycin",
+       "type": "quantitative"
+     },
+   },
+ },
+],
+},
+{
+"layer":[{
+"mark": "bar",
+"width":400,
+"data": {
+"url": "csvjson.json",
+"format": {
+  "type": "json"
+}
+},
+
+"encoding": {
+"x": {
+  "aggregate":"average",
+  "field": "Penicilin",
+  "type": "quantitative"
+},
+"y": {
+  "field": "Gram Staining",
+  "type": "nominal",
+},
+"color": {
+  "field": "Gram Staining",
+  "type": "nominal",
+  "scale":{"range":["#00274C","#FFCB05"]}
+},
+},
+},
+{
+"mark": {
+ "type": "text",
+ "align": "left",
+ "baseline": "middle",
+ "dx": 2
+},
+"data": {
+ "url": "csvjson.json",
+ "format": {
+   "type": "json"
+ }
+},
+"encoding": {
+ "x": {
+   "aggregate":"average",
+   "field": "Penicilin",
+   "type": "quantitative"
+ },
+ "y": {
+   "field": "Gram Staining",
+   "type": "nominal"
+ },
+ "text": {
+   "aggregate": "average",
+   "field": "Penicilin",
+   "type": "quantitative"
+ },
+},
+},
+],
+},
+{
+"layer":[{
+"mark": "bar",
+"width":400,
+"data": {
+"url": "csvjson.json",
+"format": {
+  "type": "json"
+}
+},
+
+"encoding": {
+"x": {
+  "aggregate":"average",
+  "field": "Neomycin",
+  "type": "quantitative"
+},
+"y": {
+  "field": "Gram Staining",
+  "type": "nominal",
+},
+"color": {
+  "field": "Gram Staining",
+  "type": "nominal",
+  "scale":{"range":["#00274C","#FFCB05"]}
+},
+},
+},
+
+{
+"mark": {
+ "type": "text",
+ "align": "left",
+ "baseline": "middle",
+ "dx": 2
+},
+"data": {
+ "url": "csvjson.json",
+ "format": {
+   "type": "json"
+ }
+},
+"encoding": {
+ "x": {
+   "aggregate":"average",
+   "field": "Neomycin",
+   "type": "quantitative"
+ },
+ "y": {
+   "field": "Gram Staining",
+   "type": "nominal"
+ },
+ "text": {
+   "aggregate": "average",
+   "field": "Neomycin",
+   "type": "quantitative"
+ },
+},
+},
+],
+},
+],
+}
+
+vegaEmbed('#chart1',spec1, opt)
+
+spec3 = {
+  "title":"Concentration (MIC) of Antibiotic to treat Bacteria",
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "config": {
+    "background": "#ffffff"
+  },
+
+  "hconcat":[
+{
+  "selection": {
+  "brush": {"type": "interval", "encodings":["x"]}
+},
+"transform": [
+  {"filter": {"selection": "brush2"}},
+  {"filter": {"selection": "brush3"}}
+],
+
+  "mark": "bar",
+  "data": {
+    "url": "csvjson.json",
+    "format": {
+      "type": "json"
+    }
+  },
+
+  "encoding": {
+    "y": {
+      "field": "Streptomycin",
+      "type": "quantitative"
+    },
+    "x": {
+      "field": "Bacteria",
+      "type": "nominal",
+    },
+    "color": {
+      "field": "Gram Staining",
+      "type": "nominal"
+    },
+    "tooltip":{"field":"Streptomycin", "type":"quantitative"},
+
+  },
+  "width" : width
+
+},
+{
+  "selection": {
+  "brush2": {"type": "interval", "encodings":["x"]}
+},
+"transform": [
+  {"filter": {"selection": "brush3"}},
+  {"filter": {"selection": "brush"}}
+],
+    "mark": "bar",
+  "data": {
+    "url": "csvjson.json",
+    "format": {
+      "type": "json"
+    }
+  },
+  "encoding": {
+    "y": {
+      "field": "Penicilin",
+      "type": "quantitative"
+    },
+    "x": {
+      "field": "Bacteria",
+      "type": "nominal",
+    },
+    "color": {
+      "field": "Gram Staining",
+      "type": "nominal",
+      "scale":{"range":["#00274C","#FFCB05"]}
+},
+"tooltip":{"field":"Penicilin", "type":"quantitative"},
+
+},
+"width" : width
+
+},
+{
+  "selection": {
+  "brush3": {"type": "interval", "encodings":["x"]}
+},
+  "transform": [
+    {"filter": {"selection": "brush"}},
+    {"filter": {"selection": "brush2"}}
+  ],
+
+    "mark": "bar",
+  "data": {
+    "url": "csvjson.json",
+    "format": {
+      "type": "json"
+    }
+  },
+  "encoding": {
+    "y": {
+      "field": "Neomycin",
+      "type": "quantitative"
+    },
+    "x": {
+      "field": "Bacteria",
+      "type": "nominal",
+    },
+    "color": {
+      "field": "Gram Staining",
+      "type": "nominal"
+},
+"tooltip":{"field":"Neomycin", "type":"quantitative"},
+},
+"width" : width
+},
+],
+}
+
+vegaEmbed('#chart3',spec3, opt)
+
+
+</script>
